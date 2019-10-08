@@ -38,19 +38,56 @@ suma = 0
 total = 0
 
 # Individuos, soluciones o cromosomas
-# aleatorios (n por x) enteros entre [0 y2)
-poblInicial = np.random.randint(0, 2, (n, x))
-# random.random((4,5)) # 4 individuos 5 genes
-
+tamTablero = 8
+poblInicial = np.random.randint(0, tamTablero, (n, x))
+tablero = []
 # Ingresar los datos del Problema de la Mochila - Peso y Utilidad de los Elementos
 
-def evalua(n, x, individuo):
+def initTablero():
+    for i in range(tamTablero):
+        temp = [0] * tamTablero
+        tablero.append(temp)
+    return tablero
 
-diagoIzq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
-diagoDer = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+def llenarTablero(pos):  # ubica la posicion de cada reina
+    tablero = initTablero()
+    for i in range(tamTablero):
+        tablero[i][poblIt[pos][i]] = 1
 
-for i in range(len(individuo)):
-    diagoIzq[i + individuo[i]] += 1
+def evalua(n, x, poblIt, pos):
+    cruzan = 0
+    for i in range(tamTablero):
+        j= poblIt[pos][i]
+        m=i+1
+        n=j-1
+        while m<tamTablero and n>=0:
+            if tablero[m][n] == 1:
+                cruzan += 1
+            m += 1
+            n -= 1
+        m=i+1
+        n=j+1
+        while m<tamTablero and n<tamTablero:
+            if tablero[m][n] == 1:
+                cruzan += 1            
+            m += 1
+            n += 1
+        m=i-1
+        n=j-1
+        while m>=0 and n>=0:
+            if tablero[m][n] == 1:
+                cruzan += 1 
+            m -= 1
+            n -= 1
+        m = i-1
+        n = j+1
+        while m>=0 and n<tamTablero:
+            if tablero[m][n] == 1:
+                cruzan += 1            
+            m -= 1
+            n += 1
+    return cruzan
+
 #    suma = 0
 #    total = 0
 #    sumaF = 0
@@ -141,7 +178,7 @@ poblIt = poblInicial
 
 
 # Llama función evalua, para calcular el fitness de cada individuo
-fitness, total, factible = evalua(n, x, poblIt, utilidad)
+fitness, total, factible = evalua(n, x, poblIt)
 #####print("\n","Funcion Fitness por individuos",  fitness)
 #####print("\n","Suma fitness: ",  total)
 
