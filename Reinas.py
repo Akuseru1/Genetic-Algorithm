@@ -56,6 +56,22 @@ def llenarTablero(pos):  # ubica la posicion de cada reina
 
 def evalua(n, x, poblIt, pos):
     cruzan = 0
+    """
+    encuentra el numero de cruces en el tablero
+    para el cromosoma [2, 3, 2, 7, 1, 6, 3, 7]
+
+        0   0   1   0   0   0   0   0            
+        0   0   0   1   0   0   0   0            
+        0   0   1   0   0   0   0   0            
+        0   0   0   0   0   0   0   1            
+        0   1   0   0   0   0   0   0            
+        0   0   0   0   0   0   1   0            
+        0   0   0   1   0   0   0   0            
+        0   0   0   0   0   0   0   1            
+
+    hay 5 (?) cruces
+
+    """
     for i in range(tamTablero):
         j= poblIt[pos][i]
         m=i+1
