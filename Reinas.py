@@ -256,44 +256,44 @@ class Individuo():
         self.feasible = self.is_feasible()
         self.n_queens = n_queens
     
-    def get_fitness():
+    def get_fitness(self):
         return self.fitness
 
-    def get_feasible():
+    def get_feasible(self):
         return self.feasible
     
-    def calc_fitness(self):
-        for i in range(tamTablero):
-        j = poblIt[pos][i]
-        m = i+1
-        n = j-1
-        while m < tamTablero and n >= 0:
-            if tablero[m][n] == 1:
-                cont_cruzan += 1
-            m += 1
-            n -= 1
-        m = i+1
-        n = j+1
-        while m < tamTablero and n < tamTablero:
-            if tablero[m][n] == 1:
-                cont_cruzan += 1
-            m += 1
-            n += 1
-        m = i-1
-        n = j-1
-        while m >= 0 and n >= 0:
-            if tablero[m][n] == 1:
-                cont_cruzan += 1
-            m -= 1
-            n -= 1
-        m = i-1
-        n = j+1
-        while m >= 0 and n < tamTablero:
-            if tablero[m][n] == 1:
-                cont_cruzan += 1
-            m -= 1
-            n += 1
-    return cont_cruzan
+    def calc_fitness(self, individuo):
+        for i in range(self.n_queens):
+            j = individuo[i]
+            m = i+1
+            n = j-1
+            while m < self.n_queens and n >= 0:
+                if tablero[m][n] == 1:
+                    cont_cruzan += 1
+                m += 1
+                n -= 1
+            m = i+1
+            n = j+1
+            while m < self.n_queens and n < self.n_queens:
+                if tablero[m][n] == 1:
+                    cont_cruzan += 1
+                m += 1
+                n += 1
+            m = i-1
+            n = j-1
+            while m >= 0 and n >= 0:
+                if tablero[m][n] == 1:
+                    cont_cruzan += 1
+                m -= 1
+                n -= 1
+            m = i-1
+            n = j+1
+            while m >= 0 and n < self.n_queens:
+                if tablero[m][n] == 1:
+                    cont_cruzan += 1
+                m -= 1
+                n += 1
+        return cont_cruzan
         
 
     def is_feasible():
