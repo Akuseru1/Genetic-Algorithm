@@ -1,5 +1,5 @@
-# S1) En el juego de ajedrez la reina amenaza a aquellas piezas que se encuentren en su misma fila, 
-# columna o diagonal. El problema de las 8 reinas (o n-reinas ya que dependen del numero asignado) 
+# S1) En el juego de ajedrez la reina amenaza a aquellas piezas que se encuentren en su misma fila,
+# columna o diagonal. El problema de las 8 reinas (o n-reinas ya que dependen del numero asignado)
 # consiste en poner sobre un tablero de ajedrez ocho reinas sin que estas se amenacen entre ellas.
 
 # CREADO NDD Sept 2019
@@ -26,12 +26,12 @@ poblInicial = np.array([cromosoma1, cromosoma2, cromosoma3, cromosoma4]
 
 
 #### Parametros #####
-x = 8  #  numero de reinas: x
+x = 8  # numero de reinas: x
 n = 5  # individuos en la poblacion - cromosomas: n
 Pcruce = 0.9  # Probabilidad de Cruce
 Pmuta = 0.1  # Probabilidad de Mutación
 
-fitness = np.empty((n)) # fitness maximo es 28
+fitness = np.empty((n))  # fitness maximo es 28
 factible = np.empty((n))
 acumulado = np.empty((n))
 suma = 0
@@ -43,66 +43,69 @@ poblInicial = np.random.randint(0, tamTablero, (n, x))
 tablero = []
 # Ingresar los datos del Problema de la Mochila - Peso y Utilidad de los Elementos
 
+
 def initTablero():
     for i in range(tamTablero):
         temp = [0] * tamTablero
         tablero.append(temp)
     return tablero
 
+
 def llenarTablero(pos):  # ubica la posicion de cada reina
     tablero = initTablero()
     for i in range(tamTablero):
         tablero[i][poblIt[pos][i]] = 1
 
+
 def evalua(n, x, poblIt, pos):
-    cruzan = 0
+    cont_cruzan = 0
     """
     encuentra el numero de cruces en el tablero
     para el cromosoma [2, 3, 2, 7, 1, 6, 3, 7]
 
-        0   0   1   0   0   0   0   0            
-        0   0   0   1   0   0   0   0            
-        0   0   1   0   0   0   0   0            
-        0   0   0   0   0   0   0   1            
-        0   1   0   0   0   0   0   0            
-        0   0   0   0   0   0   1   0            
-        0   0   0   1   0   0   0   0            
-        0   0   0   0   0   0   0   1            
+        0   0   1   0   0   0   0   0
+        0   0   0   1   0   0   0   0
+        0   0   1   0   0   0   0   0
+        0   0   0   0   0   0   0   1
+        0   1   0   0   0   0   0   0
+        0   0   0   0   0   0   1   0
+        0   0   0   1   0   0   0   0
+        0   0   0   0   0   0   0   1
 
     hay 5 (?) cruces
 
     """
     for i in range(tamTablero):
-        j= poblIt[pos][i]
-        m=i+1
-        n=j-1
-        while m<tamTablero and n>=0:
+        j = poblIt[pos][i]
+        m = i+1
+        n = j-1
+        while m < tamTablero and n >= 0:
             if tablero[m][n] == 1:
-                cruzan += 1
+                cont_cruzan += 1
             m += 1
             n -= 1
-        m=i+1
-        n=j+1
-        while m<tamTablero and n<tamTablero:
+        m = i+1
+        n = j+1
+        while m < tamTablero and n < tamTablero:
             if tablero[m][n] == 1:
-                cruzan += 1            
+                cont_cruzan += 1
             m += 1
             n += 1
-        m=i-1
-        n=j-1
-        while m>=0 and n>=0:
+        m = i-1
+        n = j-1
+        while m >= 0 and n >= 0:
             if tablero[m][n] == 1:
-                cruzan += 1 
+                cont_cruzan += 1
             m -= 1
             n -= 1
         m = i-1
         n = j+1
-        while m>=0 and n<tamTablero:
+        while m >= 0 and n < tamTablero:
             if tablero[m][n] == 1:
-                cruzan += 1            
+                cont_cruzan += 1
             m -= 1
             n += 1
-    return cruzan
+    return cont_cruzan
 
 #    suma = 0
 #    total = 0
@@ -116,7 +119,7 @@ def evalua(n, x, poblIt, pos):
 #        total += suma
 #        sumaF = 0
 #        suma = 0
-    return fitness, total, factible 
+#    return fitness, total, factible
 
 
 def imprime(n, total, fitness, poblIt):
@@ -171,11 +174,19 @@ def mutacion(individuo):
     for i in range(0, len(individuo)):
         rpmuta = np.random.rand()
         if rpmuta < Pmuta:
-            individuo[i] = 0 if individuo[i] else 1
-    
+            pos_1 = np.random.randint(0, len(individuo))
+
+            while(pos_1 == pos_2):
+                pos_2 = np.random.randint(0, len(individuo))
+
+            aux = individuo[pos_1]
+            individuo[pos_1] = individuo[pos_2]
+            individuo[pos_2] = aux
+
     return individuo
 
-def es_factible (individuo):
+
+def es_factible(individuo):
     suma = 0
     for i in range(len(individuo)):
         suma += individuo[i] * pesos[i]
@@ -236,3 +247,68 @@ for iter in range(1):
 
     # imprime la tabla de la iteracion
     imprime(n, total, fitness, poblIt)
+
+
+class Individuo():
+    def __init__(self, n_queens=8):
+        self.individuo = self.generate_individuo()
+        self.fitness = self.calc_fitness()
+        self.feasible = self.is_feasible()
+        self.n_queens = n_queens
+    
+    def get_fitness():
+        return self.fitness
+
+    def get_feasible():
+        return self.feasible
+    
+    def calc_fitness(self):
+        for i in range(tamTablero):
+        j = poblIt[pos][i]
+        m = i+1
+        n = j-1
+        while m < tamTablero and n >= 0:
+            if tablero[m][n] == 1:
+                cont_cruzan += 1
+            m += 1
+            n -= 1
+        m = i+1
+        n = j+1
+        while m < tamTablero and n < tamTablero:
+            if tablero[m][n] == 1:
+                cont_cruzan += 1
+            m += 1
+            n += 1
+        m = i-1
+        n = j-1
+        while m >= 0 and n >= 0:
+            if tablero[m][n] == 1:
+                cont_cruzan += 1
+            m -= 1
+            n -= 1
+        m = i-1
+        n = j+1
+        while m >= 0 and n < tamTablero:
+            if tablero[m][n] == 1:
+                cont_cruzan += 1
+            m -= 1
+            n += 1
+    return cont_cruzan
+        
+
+    def is_feasible():
+        pass
+
+    def generate_individuo():
+        self.individuo = np.random.randint(0, self.n_queens, (1, x))[0]
+    
+    def get_individuo():
+        return self.individuo
+
+
+class Poblacion():
+    def __init__(self, tam):
+        self.individuos = []
+    
+    def random_poblacion():
+        self.individuos.append(Individuo())
