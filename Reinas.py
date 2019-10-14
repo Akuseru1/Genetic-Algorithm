@@ -255,60 +255,67 @@ class Individuo():
         self.fitness = self.calc_fitness()
         self.feasible = self.is_feasible()
         self.n_queens = n_queens
-    
+        self.board = self.create_board()
+
     def get_fitness(self):
         return self.fitness
 
     def get_feasible(self):
         return self.feasible
-    
-    def calc_fitness(self, individuo):
-        for i in range(self.n_queens):
-            j = individuo[i]
-            m = i+1
-            n = j-1
-            while m < self.n_queens and n >= 0:
-                if tablero[m][n] == 1:
-                    cont_cruzan += 1
-                m += 1
-                n -= 1
-            m = i+1
-            n = j+1
-            while m < self.n_queens and n < self.n_queens:
-                if tablero[m][n] == 1:
-                    cont_cruzan += 1
-                m += 1
-                n += 1
-            m = i-1
-            n = j-1
-            while m >= 0 and n >= 0:
-                if tablero[m][n] == 1:
-                    cont_cruzan += 1
-                m -= 1
-                n -= 1
-            m = i-1
-            n = j+1
-            while m >= 0 and n < self.n_queens:
-                if tablero[m][n] == 1:
-                    cont_cruzan += 1
-                m -= 1
-                n += 1
-        return cont_cruzan
-        
 
-    def is_feasible():
+    def calc_fitness(self):
+        for i in range(self.n_queens):
+            j = self.individuo[i]
+            m = i + 1
+            n = j - 1
+
+            while m < self.n_queens and n >= 0:
+                cont_cruzan += self.board[m][n]
+                m += 1
+                n -= 1
+
+            m = i + 1
+            n = j + 1
+
+            while m < self.n_queens and n < self.n_queens:
+                cont_cruzan += self.board[m][n]
+                m += 1
+                n += 1
+            m = i - 1
+            n = j - 1
+
+            while m >= 0 and n >= 0:
+                cont_cruzan += self.board[m][n]
+                m -= 1
+                n -= 1
+
+            m = i - 1
+            n = j + 1
+
+            while m >= 0 and n < self.n_queens:
+                cont_cruzan += self.board[m][n]
+                m -= 1
+                n += 1
+
+        return cont_cruzan
+
+    def is_feasible(self):
+        return self.fitness == 0
+
+    def generate_individuo(self):
+        self.individuo = np.random.randint(0, self.n_queens, (1, x))[0]
+
+    def get_individuo(self):
+        return self.individuo
+    
+    def create_board(self):
         pass
 
-    def generate_individuo():
-        self.individuo = np.random.randint(0, self.n_queens, (1, x))[0]
-    
-    def get_individuo():
-        return self.individuo
 
 
-class Poblacion():
+class Population():
     def __init__(self, tam):
         self.individuos = []
-    
-    def random_poblacion():
+
+    def random_population(self):
         self.individuos.append(Individuo())
