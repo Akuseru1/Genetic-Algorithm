@@ -250,12 +250,16 @@ for iter in range(1):
 
 
 class Individuo():
-    def __init__(self, n_queens=8):
-        self.individuo = self.generate_individuo()
+    def __init__(self, default_list=[], n_queens=8):
+        if not default_list:
+            self.generate_list()
+        else:
+            self.list = default_list
+
         self.fitness = self.calc_fitness()
         self.feasible = self.is_feasible()
         self.n_queens = n_queens
-        self.board = self.create_board()
+        self.create_board()
 
     def get_fitness(self):
         return self.fitness
@@ -265,7 +269,7 @@ class Individuo():
 
     def calc_fitness(self):
         for i in range(self.n_queens):
-            j = self.individuo[i]
+            j = self.list[i]
             m = i + 1
             n = j - 1
 
@@ -302,20 +306,114 @@ class Individuo():
     def is_feasible(self):
         return self.fitness == 0
 
-    def generate_individuo(self):
-        self.individuo = np.random.randint(0, self.n_queens, (1, x))[0]
+    def generate_list(self):
+        self.list = np.random.randint(
+            0, self.n_queens, (1, self.n_queens))[0]
 
-    def get_individuo(self):
-        return self.individuo
-    
+    def get_list(self):
+        return self.list
+
     def create_board(self):
-        pass
+        tablero = []
 
+        for _ in range(self.n_queens):
+            temp = [0] * self.n_queens
+            tablero.append(temp)
+
+        for i in range(self.n_queens):
+            tablero[i][self.list[i]] = 1
+
+        self.board = tablero
+
+    def __str__(self):
+        return self.list
+
+    def mutar(self, pmuta):
+        for _ in range(0, len(self.list)):
+            rpmuta = np.random.rand()
+            if rpmuta < Pmuta:
+                pos_1 = np.random.randint(0, len(self.list))
+
+                while(pos_1 == pos_2):
+                    pos_2 = np.random.randint(0, len(self.list))
+
+                self.list[pos_1], self.list[pos_2] = self.list[pos_2], self.list[pos_1]
+
+        self.fitness = self.calc_fitness
 
 
 class Population():
-    def __init__(self, tam):
+    def __init__(self, default_population=[], tam=5):
         self.individuos = []
 
+        if not default_population:
+            self.random_population()
+            self.size = tam
+        else:
+            self.individuos = default_population
+            self.size = len(default_population)
+
+        self.total_fitness = sum(
+            map(lambda individuo: individuo.get_fitness(), self.individuos))
+        self.acumulado = np.cumsum(list(map(lambda individuo: individuo.get_fitness() / self.total_fitness, self.individuos)))
+
     def random_population(self):
-        self.individuos.append(Individuo())
+        for _ in range(self.size):
+            self.individuos.append(Individuo())
+    
+    def best_individual(self):
+        return max(self.individuos, lambda individuo: individuo.get_fitness())
+
+    def __str__(self):
+        return self.individuos
+    
+    def get_size(self):
+        return self.size
+    
+    def get_individuos(self):
+        return self.individuos
+    
+    def get_acumulado(self):
+        return self.acumulado
+
+class GeneticAlgorithm():
+    def __init__(self, pmuta=0.1, pcruce=0.9):
+        self.population = Population()
+        self.pcruce = pcruce
+        self.pmuta = pmuta
+
+    def cruce(self, pcruce, p1, p2):
+        if pcruce < self.pcruce:
+            print("Mas grande", self.pcruce, "que ", pcruce, "-> Si Cruzan")
+            corte = np.random.randint(1, len(p1.get_list()))
+            temp1 = p1.get_list()[0:corte]  # [i:j] corta desde [i a j)
+            temp2 = p1.get_list()[corte: len(p1.get_list())]
+            print(temp1, temp2)
+            temp3 = p2.get_list()[0:corte]
+            temp4 = p2.get_list()[corte:len(p2.get_list())]
+            print(temp3, temp4)
+            hijo1 = list(temp1)
+            hijo1.extend(list(temp4))
+            hijo1_individuo = Individuo(hijo1)
+            hijo2 = list(temp3)
+            hijo2.extend(list(temp2))
+            hijo2_individuo = Individuo(hijo2)
+        else:
+            print("Menor", Pcruce, "que ", pcruce, "-> NO Cruzan")
+            hijo1_individuo = p1
+            hijo2_individuo = p2
+
+        return hijo1_individuo, hijo2_individuo
+
+    def seleccion(self):
+        escoje = np.random.rand()
+        print("escoje:      ", escoje)
+
+        acumulado = self.population.get_acumulado()
+        individuos = self.population.get_individuos()
+
+        for i in range(0, self.population.get_size()):
+            if acumulado[i] > escoje:
+                padre = individuos[i]
+                break
+        return (padre)
