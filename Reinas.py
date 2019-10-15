@@ -187,6 +187,33 @@ class GeneticAlgorithm():
         for i in range(0, self.population.get_size()):
             if acumulado[i] > escoje:
                 padre = individuos[i]
-                indice = i
                 break
-        return padre, indice
+        return padre
+
+    def run(self, itera = 10):
+        cont_hijo = 0
+        pobla2 = Population()
+        print("\n iniciales: \n")
+        for i in range(pobla2.get_size()):
+            print(pobla2.get_individuos()[i].get_list())
+        while(cont_hijo < 4):
+            for _ in range(itera):
+                p1 = self.seleccion()
+                p2 = self.seleccion()
+                pcruce = np.random.rand()
+                h1, h2 = self.cruce(pcruce, p1, p2)
+                h1.mutar(self.pmuta)
+                cont += 1
+                h2.mutar(self.pmuta)
+                pobla2.individuos[cont_hijo] = h1 
+                cont_hijo += 1
+                if cont_hijo >= 4:
+                    break
+                pobla2.individuos[cont_hijo] = h1 
+                cont_hijo += 1
+
+
+        print("\n Finales: \n")
+        for i in range(pobla2.get_size()):
+            print(pobla2.get_individuos()[i].get_list())
+        self.population = pobla2
