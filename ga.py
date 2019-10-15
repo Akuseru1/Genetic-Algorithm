@@ -4,6 +4,7 @@
 
 import random
 import numpy as np
+import copy
 
 class Individuo():
     def __init__(self, default_list=[], n_queens=8):
@@ -147,6 +148,9 @@ class Population():
     
     def get_acumulado(self):
         return self.acumulado
+    
+    def get_total_fitness(self):
+        return self.total_fitness
 
 class GeneticAlgorithm():
     def __init__(self, pmuta=0.1, pcruce=0.9, elitism=False):
@@ -154,6 +158,13 @@ class GeneticAlgorithm():
         self.pcruce = pcruce
         self.pmuta = pmuta
         self.elitism = elitism
+
+        self.resume = {
+            'fitness_average': 0,
+            'populations': [],
+            'population_best_solution': None
+        }
+
 
     def cruce(self, pcruce, p1, p2):
         if pcruce < self.pcruce:
@@ -199,8 +210,7 @@ class GeneticAlgorithm():
         
         for _ in range(itera):
             individuos_next_generation = []
-
-            
+            self.resume['populations'].append(copy.deepcopy(self.population))
 
             while(True):
                 p1 = self.seleccion()
@@ -224,6 +234,8 @@ class GeneticAlgorithm():
 
             self.population = Population(default_population=individuos_next_generation)
 
+        self.resume['fitness_average'] = sum(map(lambda population: population.get_total_fitness(), self.resume['populations'])) / itera
+        self.resume['population_best_solution'] = copy.deepcopy(max(self.resume['populations'], key=lambda population: population.best_individual().get_fitness()))
 
         print("\n Finales: \n")
         #print(self.population)
