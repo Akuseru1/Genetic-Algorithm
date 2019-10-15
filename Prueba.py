@@ -11,5 +11,11 @@ for _ in range(2):
     h1, h2 = solucion.cruce(pcruce, p1, p2)
     h1.mutar(solucion.pmuta)
     h2.mutar(solucion.pmuta)
-#iniciales
-solucion.population.get_individuos()
+
+print("\n iniciales: \n")
+for i in range(solucion.population.get_size()):
+    print(iniciales[i].get_list())
+
+print("\n finales: \n")
+for i in range(solucion.population.get_size()):
+    print(solucion.population.get_individuos()[i].get_list())
