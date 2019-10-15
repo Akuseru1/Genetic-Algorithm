@@ -75,7 +75,7 @@ class Individuo():
                 m -= 1
                 n += 1
 
-        return 1/(1+cont_cruzan) # de forma que el mejor fitness sea cuando hayan 0 cruces
+        return 1/(1 + cont_cruzan) # de forma que el mejor fitness sea cuando hayan 0 cruces
         
     def is_feasible(self):
         return self.fitness == 0
@@ -134,10 +134,10 @@ class Population():
             self.individuos.append(Individuo())
     
     def best_individual(self):
-        return max(self.individuos, lambda individuo: individuo.get_fitness())
+        return max(self.individuos, key=lambda individuo: individuo.get_fitness())
 
     def __str__(self):
-        return self.individuos
+        return f'{self.individuos}'#self.individuos
     
     def get_size(self):
         return self.size
@@ -149,10 +149,11 @@ class Population():
         return self.acumulado
 
 class GeneticAlgorithm():
-    def __init__(self, pmuta=0.1, pcruce=0.9):
+    def __init__(self, pmuta=0.1, pcruce=0.9, elitism=False):
         self.population = Population()
         self.pcruce = pcruce
         self.pmuta = pmuta
+        self.elitism = elitism
 
     def cruce(self, pcruce, p1, p2):
         if pcruce < self.pcruce:
@@ -190,30 +191,41 @@ class GeneticAlgorithm():
                 break
         return padre
 
-    def run(self, itera = 10):
-        cont_hijo = 0
-        pobla2 = Population()
+    def run(self, itera=10):
         print("\n iniciales: \n")
-        for i in range(pobla2.get_size()):
-            print(pobla2.get_individuos()[i].get_list())
-        while(cont_hijo < 4):
-            for _ in range(itera):
+
+        for i in range(self.population.get_size()):
+            print(self.population.get_individuos()[i].get_list())
+        
+        for _ in range(itera):
+            individuos_next_generation = []
+
+            
+
+            while(True):
                 p1 = self.seleccion()
                 p2 = self.seleccion()
+
                 pcruce = np.random.rand()
+
                 h1, h2 = self.cruce(pcruce, p1, p2)
+
                 h1.mutar(self.pmuta)
-                cont += 1
                 h2.mutar(self.pmuta)
-                pobla2.individuos[cont_hijo] = h1 
-                cont_hijo += 1
-                if cont_hijo >= 4:
+
+                individuos_next_generation.append(h1)
+
+                if len(individuos_next_generation) == self.population.get_size():
                     break
-                pobla2.individuos[cont_hijo] = h1 
-                cont_hijo += 1
+                individuos_next_generation.append(h2)
+
+            if self.elitism:
+                individuos_next_generation[self.population.get_size() - 1]  = self.population.best_individual()
+
+            self.population = Population(default_population=individuos_next_generation)
 
 
         print("\n Finales: \n")
-        for i in range(pobla2.get_size()):
-            print(pobla2.get_individuos()[i].get_list())
-        self.population = pobla2
+        #print(self.population)
+        for i in range(self.population.get_size()):
+            print(self.population.get_individuos()[i].get_list())
