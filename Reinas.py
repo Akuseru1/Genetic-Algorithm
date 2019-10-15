@@ -113,8 +113,7 @@ class Individuo():
 
                 self.list[pos_1], self.list[pos_2] = self.list[pos_2], self.list[pos_1]
 
-        self.fitness = self.calc_fitness
-
+        self.fitness = self.calc_fitness()
 
 class Population():
     def __init__(self, default_population=[], tam=5):
@@ -188,5 +187,6 @@ class GeneticAlgorithm():
         for i in range(0, self.population.get_size()):
             if acumulado[i] > escoje:
                 padre = individuos[i]
+                indice = i
                 break
-        return (padre)
+        return padre, indice
