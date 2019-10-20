@@ -79,7 +79,7 @@ class Individuo():
         return 1/(1 + cont_cruzan) # de forma que el mejor fitness sea cuando hayan 0 cruces
         
     def is_feasible(self):
-        return self.fitness == 0
+        return self.fitness == 1
 
     def generate_list(self):
         self.list = np.random.randint(
@@ -175,7 +175,7 @@ class GeneticAlgorithm():
             print(temp1, temp2)
             temp3 = p2.get_list()[0:corte]
             temp4 = p2.get_list()[corte:len(p2.get_list())]
-            print(temp3, temp4)
+            print(temp3, temp4, "\n")
             hijo1 = list(temp1)
             hijo1.extend(list(temp4))
             hijo1_individuo = Individuo(hijo1)
@@ -183,7 +183,7 @@ class GeneticAlgorithm():
             hijo2.extend(list(temp2))
             hijo2_individuo = Individuo(hijo2)
         else:
-            print("Menor", pcruce, "que ", self.pcruce, "-> No Cruzan")
+            print("Menor", pcruce, "que ", self.pcruce, "-> No Cruzan\n")
             hijo1_individuo = p1
             hijo2_individuo = p2
 
@@ -205,16 +205,24 @@ class GeneticAlgorithm():
     def run(self, itera=10):
         print("\n iniciales: \n")
 
+        print("Poblacion inicial Aleatoria      Fitness       Factible")
+
         for i in range(self.population.get_size()):
-            print(self.population.get_individuos()[i].get_list())
-        
+            print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+            "       ", self.population.get_individuos()[i].get_feasible())
+        print("Total Fitness: ", self.population.get_total_fitness())
+        print("\n") 
+
         for _ in range(itera):
+            print("Iteracion: ", (_+1),"\n")
             individuos_next_generation = []
             self.resume['populations'].append(copy.deepcopy(self.population))
 
             while(True):
                 p1 = self.seleccion()
+                print("Padre 1: ", p1.get_list())
                 p2 = self.seleccion()
+                print("Padre 2: ", p2.get_list())
 
                 pcruce = np.random.rand()
 
@@ -223,10 +231,14 @@ class GeneticAlgorithm():
                 h1.mutar(self.pmuta)
                 h2.mutar(self.pmuta)
 
+                if h1.get_feasible:
+                    print("Hijo1 es factible y es: ", h1.get_list(),"\n---------------------------------------------------")
                 individuos_next_generation.append(h1)
-
                 if len(individuos_next_generation) == self.population.get_size():
                     break
+
+                if h2.get_feasible():
+                    print("Hijo2 es factible y es: ", h2.get_list())
                 individuos_next_generation.append(h2)
 
             if self.elitism:
@@ -238,6 +250,11 @@ class GeneticAlgorithm():
         self.resume['population_best_solution'] = copy.deepcopy(max(self.resume['populations'], key=lambda population: population.best_individual().get_fitness()))
 
         print("\n Finales: \n")
-        #print(self.population)
+
+        print("    Poblacion inicial Aleatoria        Fitness      Factible")
+
         for i in range(self.population.get_size()):
-            print(self.population.get_individuos()[i].get_list())
+            print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+            "       ", self.population.get_individuos()[i].get_feasible())
+        print("Total Fitness: ",self.population.get_total_fitness())
+        print("\n") 
