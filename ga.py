@@ -94,7 +94,7 @@ class Individuo():
         self.fitness = self.calc_fitness()
 
 class Population():
-    def __init__(self, default_population=[], tam=10):
+    def __init__(self, default_population=[], tam=20):
         self.individuos = []
         if not default_population:
             self.size = tam
@@ -217,6 +217,8 @@ class GeneticAlgorithm():
                 if h2.get_feasible():
                     print("Hijo2 es factible y es: ", h2.get_list())
                 individuos_next_generation.append(h2)
+                if len(individuos_next_generation) == self.population.get_size():
+                    break
 
             if self.elitism:
                 individuos_next_generation[self.population.get_size() - 1]  = self.population.best_individual()
