@@ -51,7 +51,7 @@ class Individuo():
                     cont_cruces += 1 if i - chromosome[i] == j - chromosome[j] or i + chromosome[i] == j + chromosome[j] else 0
         cont_cruces /= 2
         # cuenta cruces columna, elimina los elementos repetidos del cromosoma
-        cont_cruces += self.n_queens - len([ncol for ncol in chromosome if chromosome.count(ncol)])
+        cont_cruces += self.n_queens - len([ncol for ncol in chromosome if chromosome.count(ncol) == 1])
         cont_cruces /=2
         return 1/(1 + cont_cruces) # de forma que el mejor fitness sea cuando hayan 0 cruces
         
