@@ -30,91 +30,30 @@ class Individuo():
         encuentra el numero de cruces en el tablero
         para el cromosoma [2, 3, 2, 7, 1, 6, 3, 7]
 
-        0   0   1   0   0   0   0   0
-        0   0   0   1   0   0   0   0
-        0   0   1   0   0   0   0   0
-        0   0   0   0   0   0   0   1
-        0   1   0   0   0   0   0   0
-        0   0   0   0   0   0   1   0
-        0   0   0   1   0   0   0   0
-        0   0   0   0   0   0   0   1
-
-        hay 5 (?) cruces
+        8 0   0   0   0   0   0   0   1
+        7 0   0   0   1   0   0   0   0
+        6 0   0   0   0   0   0   1   0
+        5 0   1   0   0   0   0   0   0
+        4 0   0   0   0   0   0   0   1
+        3 0   0   1   0   0   0   0   0
+        2 0   0   0   1   0   0   0   0
+        1 0   0   1   0   0   0   0   0
+          1   2   3   4   5   6   7   8
+        hay 8 cruces diagonales
 
         """
-        cont_cruzan = 0
+        cont_cruces = 0
+        chromosome = list(self.get_list())
+        # cuenta cruces en diagonales
         for i in range(self.n_queens):
-
-            j = self.list[i]
-            n = j - 1
-            m = i
-            
-            while n >= 0: # Filas Izquierda
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                n -= 1
-
-            j = self.list[i]
-            n = j + 1
-            
-            while n <self.n_queens: # Filas derecha
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                n += 1
-
-            j = self.list[i]
-            n = j
-            m = i - 1
-
-            while m >= 0: # Columnas hacia arriba
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m -= 1
-
-            m = i + 1
-
-            while m < self.n_queens: # Columnas hacia abajo
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m += 1
-
-            j = self.list[i]
-            m = i + 1
-            n = j - 1
-
-            while m < self.n_queens and n >= 0: # Diagonal Izquirda abajo
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m += 1 
-                n -= 1
-
-            m = i + 1
-            n = j + 1
-
-            while m < self.n_queens and n < self.n_queens: # Diagonal Derecha abajo
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m += 1
-                n += 1
-            m = i - 1
-            n = j - 1
-
-            while m >= 0 and n >= 0:   # Diagonal Izquirda arriba
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m -= 1
-                n -= 1
-
-            m = i - 1
-            n = j + 1
-
-            while m >= 0 and n < self.n_queens: # Diagonal Derecha arriba
-                if self.board[m][n] == 1:
-                    cont_cruzan += self.board[m][n]
-                m -= 1
-                n += 1
-
-        return 1/(1 + cont_cruzan) # de forma que el mejor fitness sea cuando hayan 0 cruces
+            for j in range(self.n_queens):
+                if (i != j):
+                    cont_cruces += 1 if i - chromosome[i] == j - chromosome[j] or i + chromosome[i] == j + chromosome[j] else 0
+        cont_cruces /= 2
+        # cuenta cruces columna, elimina los elementos repetidos del cromosoma
+        cont_cruces += self.n_queens - len([ncol for ncol in chromosome if chromosome.count(ncol)])
+        cont_cruces /=2
+        return 1/(1 + cont_cruces) # de forma que el mejor fitness sea cuando hayan 0 cruces
         
     def is_feasible(self):
         return self.fitness == 1
@@ -155,7 +94,7 @@ class Individuo():
         self.fitness = self.calc_fitness()
 
 class Population():
-    def __init__(self, default_population=[], tam=5):
+    def __init__(self, default_population=[], tam=10):
         self.individuos = []
         if not default_population:
             self.size = tam
@@ -269,7 +208,7 @@ class GeneticAlgorithm():
                 h1.mutar(self.pmuta)
                 h2.mutar(self.pmuta)
 
-                if h1.get_feasible:
+                if h1.get_feasible():
                     print("Hijo1 es factible y es: ", h1.get_list(),"\n---------------------------------------------------")
                 individuos_next_generation.append(h1)
                 if len(individuos_next_generation) == self.population.get_size():
