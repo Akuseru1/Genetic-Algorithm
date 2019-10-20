@@ -44,35 +44,73 @@ class Individuo():
         """
         cont_cruzan = 0
         for i in range(self.n_queens):
+
+            j = self.list[i]
+            n = j - 1
+            m = i
+            
+            while n >= 0: # Filas Izquierda
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
+                n -= 1
+
+            j = self.list[i]
+            n = j + 1
+            
+            while n <self.n_queens: # Filas derecha
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
+                n += 1
+
+            j = self.list[i]
+            n = j
+            m = i - 1
+
+            while m >= 0: # Columnas hacia arriba
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
+                m -= 1
+
+            m = i + 1
+
+            while m < self.n_queens: # Columnas hacia abajo
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
+                m += 1
+
             j = self.list[i]
             m = i + 1
             n = j - 1
 
-            while m < self.n_queens and n >= 0:
-                cont_cruzan += self.board[m][n]
-                m += 1
+            while m < self.n_queens and n >= 0: # Diagonal Izquirda abajo
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
+                m += 1 
                 n -= 1
 
             m = i + 1
             n = j + 1
 
-            while m < self.n_queens and n < self.n_queens:
-                cont_cruzan += self.board[m][n]
+            while m < self.n_queens and n < self.n_queens: # Diagonal Derecha abajo
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
                 m += 1
                 n += 1
             m = i - 1
             n = j - 1
 
-            while m >= 0 and n >= 0:
-                cont_cruzan += self.board[m][n]
+            while m >= 0 and n >= 0:   # Diagonal Izquirda arriba
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
                 m -= 1
                 n -= 1
 
             m = i - 1
             n = j + 1
 
-            while m >= 0 and n < self.n_queens:
-                cont_cruzan += self.board[m][n]
+            while m >= 0 and n < self.n_queens: # Diagonal Derecha arriba
+                if self.board[m][n] == 1:
+                    cont_cruzan += self.board[m][n]
                 m -= 1
                 n += 1
 

@@ -2,4 +2,4 @@ from ga import GeneticAlgorithm
 
 
 ga = GeneticAlgorithm()
-ga.run(50)
+ga.run(1000)
