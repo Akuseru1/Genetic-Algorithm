@@ -76,6 +76,11 @@ class Individuo():
             tablero[i][self.list[i]] = 1
 
         self.board = tablero
+    def get_board(self):
+        for i in range(self.n_queens):
+            for j in range(self.n_queens):
+                print(self.board[i][j],"\t", end=" ")
+            print("\n")
 
     def __str__(self):
         return self.list
@@ -130,7 +135,7 @@ class Population():
         return self.total_fitness
 
 class GeneticAlgorithm():
-    def __init__(self, pmuta=0.1, pcruce=0.9, elitism=False):
+    def __init__(self, pmuta=0.001, pcruce=0.9, elitism=False):
         self.population = Population()
         self.pcruce = pcruce
         self.pmuta = pmuta
@@ -182,12 +187,17 @@ class GeneticAlgorithm():
     def run(self, itera=10):
         print("\n iniciales: \n")
 
-        print("Poblacion inicial Aleatoria      Fitness       Factible")
+        print("Poblacion Inicial Aleatoria      Fitness       Factible")
 
         for i in range(self.population.get_size()):
             print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
             "       ", self.population.get_individuos()[i].get_feasible())
         print("Total Fitness: ", self.population.get_total_fitness())
+        print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+        best = self.population.best_individual()
+        print("Best Individual: ", best.get_list())
+        print("Board Best Individual")
+        best.get_board()
         print("\n") 
 
         for _ in range(itera):
@@ -224,16 +234,30 @@ class GeneticAlgorithm():
                 individuos_next_generation[self.population.get_size() - 1]  = self.population.best_individual()
 
             self.population = Population(default_population=individuos_next_generation)
+            print("    Poblacion Final        Fitness      Factible")
+
+            for i in range(self.population.get_size()):
+                print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+                "       ", self.population.get_individuos()[i].get_feasible())
+            print("Total Fitness: ",self.population.get_total_fitness())
+            print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+            best = self.population.best_individual()
+            print("Best Individual: ",best.get_list(),"\n")
 
         self.resume['fitness_average'] = sum(map(lambda population: population.get_total_fitness(), self.resume['populations'])) / itera
         self.resume['population_best_solution'] = copy.deepcopy(max(self.resume['populations'], key=lambda population: population.best_individual().get_fitness()))
 
         print("\n Finales: \n")
 
-        print("    Poblacion inicial Aleatoria        Fitness      Factible")
+        print("    Poblacion Final        Fitness      Factible")
 
         for i in range(self.population.get_size()):
             print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
             "       ", self.population.get_individuos()[i].get_feasible())
         print("Total Fitness: ",self.population.get_total_fitness())
+        print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+        best = self.population.best_individual()
+        print("Best Individual: ",best.get_list())
+        print("Board Best Individual")
+        best.get_board()
         print("\n") 
