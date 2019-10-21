@@ -58,7 +58,7 @@ forma:
 Donde nc es el numero de cruces definido como la suma de la cantidad de cruces en diagonal
 y los cruces en columnas.
 Con la funci\'on de fitness definida de esta forma el objetivo ser\'a
-minimizar el n\'umero de cruces de modo que (\ref{eqfitness}) se maximize.
+minimizar el n\'umero de cruces de modo que (\ref{eqfitness}) se maximice.
 
 \subsection{Configuraci\'on de par\'ametros}
 Los par\'ametros elegidos para la ejecuci\'on del algoritmo gen\'etico se presentan a continuaci\'on:
@@ -91,7 +91,7 @@ la soluci\'on obtenida fue [3, 7, 0, 4, 6, 1, 5, 2]
 	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
 \end{tabular}
 \end{center}
-podemos observar en la figura (\ref{elitismo}) hay 3 curvas, el eje X son el numero de iteraciones y el eje Y representa el fitness. En las 2 curvas online y best-so-far utilizando elitismo destaca un cambio repentino en el promedio de fitness de los individuos y los mejores fitness respectivamente alrededor de la iteraci\'on 300 y 400, mientras que la curva offline se muestra constante en el transcurso de cada generaci\'on.
+podemos observar en la figura (\ref{elitismo}) hay 3 curvas, el eje X son el numero de iteraciones y el eje Y representa el valor del fitness. En las 2 curvas online y best-so-far utilizando elitismo destaca un cambio repentino en el promedio de fitness de los individuos y los mejores fitness respectivamente alrededor de la iteraci\'on 300 y 400, mientras que la curva offline no presenta cambios tan grandes durante el proceso evolutivo.
 \begin{figure}[t]
     \includegraphics[width=10cm, height=10cm]{Figure_1}
     \centering

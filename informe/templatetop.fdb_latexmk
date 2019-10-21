@@ -1,11 +1,11 @@
 # Fdb version 3
-["pdflatex"] 1571630377 "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.tex" "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.pdf" "templatetop" 1571630461
+["pdflatex"] 1571662882 "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.tex" "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.pdf" "templatetop" 1571662882
   "./images/Figure_1.png" 1571629235 27606 4153310107ac187fc61bb2d0d32fbfed ""
   "./images/Figure_2.png" 1571629853 27236 849e0225ea0a959e59f2185a93b9cc4d ""
   "./images/nqueens.jpg" 1571615595 19018 aa00d405358ec67c9b682cce98ec94b5 ""
   "/etc/texmf/web2c/texmf.cnf" 1568507756 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.aux" 1571630378 1333 4b234350b8dcfac7d0b88498a33ac2e7 ""
-  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.tex" 1571630461 4220 e35b70cf334793d80ccb3b2d930e27bd ""
+  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.aux" 1571662882 1392 532800713f6fe22f5ae73425fae6ea51 ""
+  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.tex" 1571662882 5854 d539f7c0efe8712a3377c51c062f35a1 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -56,11 +56,11 @@
   "images/Figure_1.png" 1571629235 27606 4153310107ac187fc61bb2d0d32fbfed ""
   "images/Figure_2.png" 1571629853 27236 849e0225ea0a959e59f2185a93b9cc4d ""
   "images/nqueens.jpg" 1571615595 19018 aa00d405358ec67c9b682cce98ec94b5 ""
-  "templatetop.aux" 1571630378 1333 4b234350b8dcfac7d0b88498a33ac2e7 ""
-  "templatetop.tex" 1571630461 4220 e35b70cf334793d80ccb3b2d930e27bd ""
+  "templatetop.aux" 1571662882 1392 532800713f6fe22f5ae73425fae6ea51 ""
+  "templatetop.tex" 1571662882 5854 d539f7c0efe8712a3377c51c062f35a1 ""
   (generated)
-  "templatetop.log"
-  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.log"
   "templatetop.aux"
-  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.pdf"
   "templatetop.pdf"
+  "templatetop.log"
+  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.pdf"
+  "/home/ar4z/Documents/University/2019 - II/SistemasInteligentes/TallerGA/Genetic-Algorithm/informe/templatetop.log"
