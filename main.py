@@ -1,5 +1,5 @@
 from ga import GeneticAlgorithm
 
 
-ga = GeneticAlgorithm(elitism=True)
-ga.run(10000)
+ga = GeneticAlgorithm(elitism=False)
+ga.run(1500)

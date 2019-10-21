@@ -5,6 +5,8 @@
 import random
 import numpy as np
 import copy
+import matplotlib.pyplot as plt
+
 
 class Individuo():
     def __init__(self, default_list=[], n_queens=8):
@@ -48,13 +50,16 @@ class Individuo():
         for i in range(self.n_queens):
             for j in range(self.n_queens):
                 if (i != j):
-                    cont_cruces += 1 if i - chromosome[i] == j - chromosome[j] or i + chromosome[i] == j + chromosome[j] else 0
+                    cont_cruces += 1 if i - \
+                        chromosome[i] == j - chromosome[j] or i + chromosome[i] == j + chromosome[j] else 0
         cont_cruces /= 2
         # cuenta cruces columna, elimina los elementos repetidos del cromosoma
-        cont_cruces += self.n_queens - len([ncol for ncol in chromosome if chromosome.count(ncol) == 1])
-        cont_cruces /=2
-        return 1/(1 + cont_cruces) # de forma que el mejor fitness sea cuando hayan 0 cruces
-        
+        cont_cruces += self.n_queens - \
+            len([ncol for ncol in chromosome if chromosome.count(ncol) == 1])
+        cont_cruces /= 2
+        # de forma que el mejor fitness sea cuando hayan 0 cruces
+        return 1/(1 + cont_cruces)
+
     def is_feasible(self):
         return self.fitness == 1
 
@@ -76,10 +81,11 @@ class Individuo():
             tablero[i][self.list[i]] = 1
 
         self.board = tablero
+
     def get_board(self):
         for i in range(self.n_queens):
             for j in range(self.n_queens):
-                print(self.board[i][j],"\t", end=" ")
+                print(self.board[i][j], "\t", end=" ")
             print("\n")
 
     def __str__(self):
@@ -98,6 +104,7 @@ class Individuo():
 
         self.fitness = self.calc_fitness()
 
+
 class Population():
     def __init__(self, default_population=[], tam=20):
         self.individuos = []
@@ -110,29 +117,31 @@ class Population():
 
         self.total_fitness = sum(
             map(lambda individuo: individuo.get_fitness(), self.individuos))
-        self.acumulado = np.cumsum(list(map(lambda individuo: individuo.get_fitness() / self.total_fitness, self.individuos)))
+        self.acumulado = np.cumsum(list(map(
+            lambda individuo: individuo.get_fitness() / self.total_fitness, self.individuos)))
 
     def random_population(self):
         for _ in range(self.size):
             self.individuos.append(Individuo())
-    
+
     def best_individual(self):
         return max(self.individuos, key=lambda individuo: individuo.get_fitness())
 
     def __str__(self):
-        return f'{self.individuos}'#self.individuos
-    
+        return f'{self.individuos}'  # self.individuos
+
     def get_size(self):
         return self.size
-    
+
     def get_individuos(self):
         return self.individuos
-    
+
     def get_acumulado(self):
         return self.acumulado
-    
+
     def get_total_fitness(self):
         return self.total_fitness
+
 
 class GeneticAlgorithm():
     def __init__(self, pmuta=0.001, pcruce=0.9, elitism=False):
@@ -142,11 +151,11 @@ class GeneticAlgorithm():
         self.elitism = elitism
 
         self.resume = {
-            'fitness_average': 0,
+            'fitness_averages': [],
             'populations': [],
-            'population_best_solution': None
+            'population_best_solution': None,
+            'best_fitness_averages': []
         }
-
 
     def cruce(self, pcruce, p1, p2):
         if pcruce < self.pcruce:
@@ -184,27 +193,49 @@ class GeneticAlgorithm():
                 break
         return padre
 
+    def plot(self):
+        x = list(range(len(self.resume.get('populations'))))
+        y = [population.best_individual().get_fitness()
+             for population in self.resume.get('populations')]
+        y2 = self.resume.get('fitness_averages')
+        y3 = []
+        for i in range(0, len(y)):
+            if i == 0:
+                y3.append(y[0])
+            else:
+                y3.append((y[i] + y[i-1])/(i+1))
+        plt.plot(x, y, label="Curva best-so-far")
+        plt.plot(x, y2, label="Curva online")
+        plt.plot(x, y3, label="Curva off-line")
+        plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc='lower left',
+           ncol=2, mode="expand", borderaxespad=0.)
+        plt.show()
+
     def run(self, itera=10):
         print("\n iniciales: \n")
 
         print("Poblacion Inicial Aleatoria      Fitness       Factible")
 
         for i in range(self.population.get_size()):
-            print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
-            "       ", self.population.get_individuos()[i].get_feasible())
+            print("\t", self.population.get_individuos()[i].get_list(), "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+                  "       ", self.population.get_individuos()[i].get_feasible())
         print("Total Fitness: ", self.population.get_total_fitness())
-        print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+        print("Average Fitness: ", self.population.get_total_fitness() /
+              self.population.get_size())
+
         best = self.population.best_individual()
         print("Best Individual: ", best.get_list())
         print("Board Best Individual")
         best.get_board()
-        print("\n") 
+        print("\n")
 
         for _ in range(itera):
-            print("Iteracion: ", (_+1),"\n")
+            print("Iteracion: ", (_+1), "\n")
             individuos_next_generation = []
             self.resume['populations'].append(copy.deepcopy(self.population))
-
+            self.resume['fitness_averages'].append(
+                    self.population.get_total_fitness() / self.population.get_size())
+            
             while(True):
                 p1 = self.seleccion()
                 print("Padre 1: ", p1.get_list())
@@ -219,7 +250,8 @@ class GeneticAlgorithm():
                 h2.mutar(self.pmuta)
 
                 if h1.get_feasible():
-                    print("Hijo1 es factible y es: ", h1.get_list(),"\n---------------------------------------------------")
+                    print("Hijo1 es factible y es: ", h1.get_list(),
+                          "\n---------------------------------------------------")
                 individuos_next_generation.append(h1)
                 if len(individuos_next_generation) == self.population.get_size():
                     break
@@ -231,33 +263,37 @@ class GeneticAlgorithm():
                     break
 
             if self.elitism:
-                individuos_next_generation[self.population.get_size() - 1]  = self.population.best_individual()
+                individuos_next_generation[-1] = self.population.best_individual()
 
-            self.population = Population(default_population=individuos_next_generation)
+            self.population = Population(
+                default_population=individuos_next_generation)
             print("          Poblacion Final              Fitness      Factible")
 
             for i in range(self.population.get_size()):
-                print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
-                "       ", self.population.get_individuos()[i].get_feasible())
-            print("Total Fitness: ",self.population.get_total_fitness())
-            print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+                print("\t", self.population.get_individuos()[i].get_list(), "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+                      "       ", self.population.get_individuos()[i].get_feasible())
+            print("Total Fitness: ", self.population.get_total_fitness())
+            print("Average Fitness: ", self.population.get_total_fitness() /
+                  self.population.get_size())
             best = self.population.best_individual()
-            print("Best Individual: ",best.get_list(),"\n")
+            print("Best Individual: ", best.get_list(), "\n")
 
-        self.resume['fitness_average'] = sum(map(lambda population: population.get_total_fitness(), self.resume['populations'])) / itera
-        self.resume['population_best_solution'] = copy.deepcopy(max(self.resume['populations'], key=lambda population: population.best_individual().get_fitness()))
+        self.resume['population_best_solution'] = copy.deepcopy(max(
+            self.resume['populations'], key=lambda population: population.best_individual().get_fitness()))
 
         print("\n Finales: \n")
 
         print("        Poblacion Final                Fitness      Factible")
 
         for i in range(self.population.get_size()):
-            print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
-            "       ", self.population.get_individuos()[i].get_feasible())
-        print("Total Fitness: ",self.population.get_total_fitness())
-        print("Average Fitness: ",self.population.get_total_fitness()/self.population.get_size())
+            print("\t", self.population.get_individuos()[i].get_list(), "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
+                  "       ", self.population.get_individuos()[i].get_feasible())
+        print("Total Fitness: ", self.population.get_total_fitness())
+        print("Average Fitness: ", self.population.get_total_fitness() /
+              self.population.get_size())
         best = self.population.best_individual()
-        print("Best Individual: ",best.get_list())
+        print("Best Individual: ", best.get_list())
         print("Board Best Individual")
         best.get_board()
-        print("\n") 
+        print("\n")
+        self.plot()
