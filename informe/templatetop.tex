@@ -1,0 +1,25 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\begin{document}
+\title{Aplicaci\'on de algoritmo gen\'etico: N-queens }
+\author{Orlando Hernandez Nu\~nez. Juan Alejandro Bernal Gallego}
+\maketitle
+
+\section{Introducci\'on}
+En el presente trabajo se busca dar soluci\'on al problema de las N-queens mediante el uso de un algoritmo gen\'etico. A continuaci\'on, se mostrar\'a la configuraci\'on de par\'ametros con las que fue ejecutado el algoritmo gen\'etico y los resultados obtenidos.
+
+\section{Problema}
+En el juego de ajedrez la reina amenaza a aquellas piezas que se encuentren en su misma fila, columna o diagonal. El problema de las 8 reinas (o n-queens ya que dependen del numero asignado) consiste en poner sobre un tablero de ajedrez ocho reinas sin que estas se amenacen entre ellas.
+\begin{figure}[h]
+\includegraphics[width=8cm, height=6cm]{nqueens}
+\centering
+\caption{Soluci\'on al problema de las N-queens}
+\end{figure}
+\section{Algoritmo Gen\'etico}
+\subsection{Definici\'on de la codificaci\'on}
+Para representar cada uno de los cromosomas que integrar\'an la poblaci\'on de posibles soluciones 
+al problema se eligi\'o un vector de n\'umeros enteros donde cada indice indica una fila del tablero. 
+El valor de cada indice esta entre 0 y N-1 donde N es el n\'umero de reinas a distribuir en el tablero
+y este valor indicar\'a en que columna se ubica la reina dentro del tablero.
+\end{document}
