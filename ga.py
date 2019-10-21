@@ -234,7 +234,7 @@ class GeneticAlgorithm():
                 individuos_next_generation[self.population.get_size() - 1]  = self.population.best_individual()
 
             self.population = Population(default_population=individuos_next_generation)
-            print("    Poblacion Final        Fitness      Factible")
+            print("          Poblacion Final              Fitness      Factible")
 
             for i in range(self.population.get_size()):
                 print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
@@ -249,7 +249,7 @@ class GeneticAlgorithm():
 
         print("\n Finales: \n")
 
-        print("    Poblacion Final        Fitness      Factible")
+        print("        Poblacion Final                Fitness      Factible")
 
         for i in range(self.population.get_size()):
             print("\t",self.population.get_individuos()[i].get_list() , "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
