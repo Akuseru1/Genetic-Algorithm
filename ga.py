@@ -83,7 +83,7 @@ class Individuo():
         self.board = tablero
 
     def get_board(self):
-        for i in range(self.n_queens):
+        for i in range(self.n_queens-1, -1, -1):
             for j in range(self.n_queens):
                 print(self.board[i][j], "\t", end=" ")
             print("\n")
@@ -283,7 +283,7 @@ class GeneticAlgorithm():
 
         print("\n Finales: \n")
 
-        print("        Poblacion Final                Fitness      Factible")
+        print("              Poblacion Final                Fitness      Factible")
 
         for i in range(self.population.get_size()):
             print("\t", self.population.get_individuos()[i].get_list(), "          ", round(self.population.get_individuos()[i].get_fitness(), 2),
@@ -292,8 +292,8 @@ class GeneticAlgorithm():
         print("Average Fitness: ", self.population.get_total_fitness() /
               self.population.get_size())
         best = self.population.best_individual()
-        print("Best Individual: ", best.get_list())
-        print("Board Best Individual")
+        print("Best Individual: ", best.get_list(),"\n")
+        print("                 Board Best Individual")
         best.get_board()
         print("\n")
         self.plot()

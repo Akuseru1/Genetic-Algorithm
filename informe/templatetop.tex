@@ -1,9 +1,11 @@
 \documentclass[11pt]{article}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
+\renewcommand{\figurename}{Fig.}
 \begin{document}
 \title{Aplicaci\'on de algoritmo gen\'etico: N-queens }
 \author{Orlando Hernandez Nu\~nez. Juan Alejandro Bernal Gallego}
+\date{21 de Octubre del 2019}
 \maketitle
 
 \section{Introducci\'on}
@@ -25,10 +27,15 @@ y este valor indicar\'a en que columna se ubica la reina dentro del tablero.
 
 Los cromosomas fueron codificados de manera que pudieran representar la ubicaci\'on en columnas y filas de cada reina. El gen representa la columna en la que se encuentra cada reina, y el \'indice del gen representa la posici\'on de las reinas con respecto a las filas.
 \begin{itemize}
-\item Ejemplo: Cromosoma 1 = \{1, 2, 0\} seria las posiciones de 3 reinas en un tablero de 3x3
-0 1 0
-0 0 1
-1 0 0
+\item Ejemplo cromosoma \{1, 2, 0, 3\}
+\begin{center}
+\begin{tabular}{ c c c c }
+	0 & 0 & 0 & 1\\
+	1 & 0 & 0 & 0\\
+	0 & 0 & 1 & 0\\
+	0 & 1 & 0 & 0
+\end{tabular}
+\end{center}
 \end{itemize}
 \subsection{Funci\'on de fitness}
 La funci\'on de fitness se encarga de contar el n\'umero de
@@ -69,19 +76,47 @@ Tamano\;de\;poblacion = 20\;individuos
 A continuaci\'on, se presentan los resultados conseguidos con la configuraci\'on
 descrita previamente para el algoritmo gen\'etico.
 \subsection{Elitista}
-Se ejecut\'o el algoritmo hasta alcanzar la iteraci\'on i = 1000  conservando en cada una de las siguientes 
+Se ejecut\'o el algoritmo hasta alcanzar la iteraci\'on i = 1000  conservando en cada una de las siguientes
 generaciones el mejor individuo de la anterior.
 la soluci\'on obtenida fue [3, 7, 0, 4, 6, 1, 5, 2]
+\begin{center}
+\begin{tabular}{ c c c c c c c c }
+	0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+	1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0
+\end{tabular}
+\end{center}
+podemos observar en la figura (\ref{elitismo}) hay 3 curvas, el eje X son el numero de iteraciones y el eje Y representa el fitness. En las 2 curvas online y best-so-far utilizando elitismo destaca un cambio repentino en el promedio de fitness de los individuos y los mejores fitness respectivamente alrededor de la iteraci\'on 300 y 400, mientras que la curva offline se muestra constante en el transcurso de cada generaci\'on.
 \begin{figure}[t]
     \includegraphics[width=10cm, height=10cm]{Figure_1}
     \centering
     \caption{Curvas de monitoreo ejecuci\'on con elitismo}
+    \label{elitismo}
     \end{figure}
 \subsection{Sin elitismo}
-Se ejecut\'o el algoritmo hasta alcanzar la iteraci\'on i = 1500 sin aplicar elitismo la soluci\'on obtenida fue [5, 2, 0, 7, 4, 1, 3, 6] 
+Se ejecut\'o el algoritmo hasta alcanzar la iteraci\'on i = 1500 sin aplicar elitismo la soluci\'on obtenida fue [5, 2, 0, 7, 4, 1, 3, 6]
+
+\begin{center}
+\begin{tabular}{ c c c c c c c c }
+	0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+	0 & 0 & 0 & 1 & 0 & 0 & 0 & 0\\
+	0 & 1 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\\
+	1 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 1 & 0 & 0 & 0 & 0 & 0\\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0
+\end{tabular}
+\end{center}
 \begin{figure}[h]
     \includegraphics[width=10cm, height=10cm]{Figure_2}
     \centering
     \caption{Curvas de monitoreo ejecuci\'on sin elitismo}
+    \label{sinelitismo}
     \end{figure}
 \end{document}
